@@ -24,10 +24,10 @@ class Cours extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(user::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
     public function formation(): BelongsTo
     {
-        return $this->belongsTo(user::class, 'formation_id');
+        return $this->belongsTo(User::class, 'formation_id');
     }
 }

@@ -13,10 +13,11 @@ class CoursController extends Controller
      */
     public function index()
     {
-        $cours=Cours::whereDate('date','>=',now()->toDateString())
-        ->orderBy('date')
-        ->orderBy('heure_debut')
-        ->get();
+        $cours = Cours::with(['user'])
+            ->whereDate('date', '>=', now()->toDateString())
+            ->orderBy('date')
+            ->orderBy('heure_debut')
+            ->get();
 
         return response()->json($cours);
     }
@@ -26,18 +27,18 @@ class CoursController extends Controller
      */
     public function store(Request $request)
     {
-        $validate=$request->validate([
-            'matiere'=>['require','string','max:255'],
-            'date'=>['require','date_format:Y-m-d'],
-            'heure_debut'=>['require','date_format:H:i'],
-            'heure_fin'=>['require','date_format:H:i'],
-            'salle'=>['require','string','max:255'],
-             ]);
-        
-             $cours=Cours::created($validate);
+        $validate = $request->validate([
+            'matiere' => ['require', 'string', 'max:255'],
+            'date' => ['require', 'date_format:Y-m-d'],
+            'heure_debut' => ['require', 'date_format:H:i'],
+            'heure_fin' => ['require', 'date_format:H:i'],
+            'salle' => ['require', 'string', 'max:255'],
+            'user_id' => ['require', 'exists:users,id'],
+        ]);
 
-             return response()->json($cours, status:201);
+        $cours = Cours::created($validate);
 
+        return response()->json($cours, status: 201);
     }
 
     /**
@@ -45,7 +46,7 @@ class CoursController extends Controller
      */
     public function show(int $id)
     {
-        $cours=Cours::find($id);
+        $cours = Cours::find($id)->load(['user']);
 
         return response()->json($cours);
     }
@@ -55,18 +56,18 @@ class CoursController extends Controller
      */
     public function update(Request $request, Cours $cours)
     {
-         $validate=$request->validate([
-            'matiere'=>['require','string','max:255'],
-            'date'=>['require','date_format:Y-m-d'],
-            'heure_debut'=>['require','date_format:H:i'],
-            'heure_fin'=>['require','date_format:H:i'],
-            'salle'=>['require','string','max:255'],
-             ]);
+        $validate = $request->validate([
+            'matiere' => ['require', 'string', 'max:255'],
+            'date' => ['require', 'date_format:Y-m-d'],
+            'heure_debut' => ['require', 'date_format:H:i'],
+            'heure_fin' => ['require', 'date_format:H:i'],
+            'salle' => ['require', 'string', 'max:255'],
+            'user_id' => ['require', 'exists:users,id'],
+        ]);
 
-             $cours->update($validate);
+        $cours->update($validate);
 
-             return response()->json($cours);
-        
+        return response()->json($cours);
     }
 
     /**
@@ -77,7 +78,7 @@ class CoursController extends Controller
         $cours->delete();
 
         return response()->json([
-            'message'=>'Cours supprimé'
-            ]);
+            'message' => 'Cours supprimé'
+        ]);
     }
 }

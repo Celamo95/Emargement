@@ -21,6 +21,7 @@ class User extends Authenticatable
         'firstname',
         'statut',
         'login',
+        'formation_id',
     ];
 
     protected $hidden = [
@@ -38,5 +39,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    //un user a plusieurs cours
+    public function cours()
+    {
+        return $this->hasMany(Cours::class);
+    }
+
+    public function formation()
+    {
+        return $this->hasMany(Formation::class);
     }
 }

@@ -9,11 +9,34 @@ Connexion
 @endpush
 @section('content')
 
-<div class="form">
-    <form action="">
-        <input type="text" id="identifiant" name="identifiant" placeholder="Identifiant">
-        <input type="password" id="password" name="password" placeholder="Mot de passe">
-        <button type="submit"><a href="{{route('home')}}">Connexion</a></button>
+{{-- Show a generic error message if needed --}}
+    @if (session('error'))
+        <div class="alert">
+            {{ session('error') }}
+        </div>
+    @endif
+
+<div class="form-container">
+    <form method="POST" action="{{ route('login.post') }}" class="form">
+        @csrf
+
+        <input 
+        type="email" 
+        id="email" 
+        name="email" 
+        placeholder="Identifiant" 
+        autofocus
+        >
+
+        <input 
+        type="password" 
+        id="password" 
+        name="password" 
+        placeholder="Mot de passe"
+        >
+
+        <button type="submit">Connexion</button>
+
     </form>
 </div>
 @endsection

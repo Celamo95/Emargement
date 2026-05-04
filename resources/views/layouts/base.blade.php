@@ -14,8 +14,9 @@
 </head>
 
 <body>
-    <header class="logo">
-        <img src="{{asset('image/Groupe-GEFOR.png'}}" alt="Logo du Groupe GEFOR">
+    <header class="">
+        <img src="{{asset('image/Groupe-GEFOR.png')}}" alt="Logo du Groupe GEFOR">
+        <h2>Emargement</h2>
     </header>
 
     @yield('content')

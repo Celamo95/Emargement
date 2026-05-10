@@ -1,3 +1,11 @@
+@extends('layouts.base')
+
+@section('title')
+Accueil
+@endsection
+@push('style')
+@vite('ressources/css/app.css')
+@endpush
 @section('content')
 
 

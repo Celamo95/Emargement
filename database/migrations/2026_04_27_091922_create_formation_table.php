@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     { //on a remplacer table par create car la table n'existe pas encore, si modification dans table existante on laisse table
-        Schema::create('formation', function (Blueprint $table) {
+        Schema::create('formations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
@@ -23,7 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('formation');
+        Schema::dropIfExists('formations');
         //
     }
 };

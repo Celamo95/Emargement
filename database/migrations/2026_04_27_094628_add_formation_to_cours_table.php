@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('cours', function (Blueprint $table) {
             $table->foreignId('formation_id')
                 ->nullable() // null car si on supprime une formation qui est relier dans cours il n'y aura pas d'erreur
-                ->constrained('formation') // point to formation table
+                ->constrained('formations') // point to formation table
                 ->nullondelete(); //si on supprime une formation la colonne deviendra null dans la table cours
         });
     }

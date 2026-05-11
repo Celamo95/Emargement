@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('presence', function (Blueprint $table) {
+        Schema::create('presences', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->string('statut');
@@ -24,7 +24,7 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('cours')
                 ->nullondelete();
-            $table->foreignId('users_id')
+            $table->foreignId('user_id')
                 ->nullable()
                 ->constrained('users')
                 ->nullondelete();
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('presence');
+        Schema::dropIfExists('presences');
     }
 };

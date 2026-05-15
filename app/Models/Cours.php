@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cours extends Model
 {
@@ -26,8 +27,14 @@ class Cours extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
     public function formation(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'formation_id');
+        return $this->belongsTo(Formation::class, 'formation_id');
+    }
+
+    public function participations(): HasMany
+    {
+        return $this->hasMany(Participation::class);
     }
 }

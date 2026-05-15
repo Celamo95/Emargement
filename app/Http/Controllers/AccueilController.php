@@ -3,18 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cours;
-use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AccueilController extends Controller
 {
     public function getCours()
     {
-        $cours = Cours::with(['user'])
-            ->whereDate('date', '>=', now()->toDateString())
-            ->orderBy('date')
-            ->orderBy('heure_debut')
-            ->get();
+        $totalApprenants = User::where('statut', 'apprenant')->count();
+        $totalFormateurs = User::where('statut', 'formateur')->count();
+        $totalCours = Cours::count();
+        $coursAujourdhui = Cours::whereDate('date', today())->count();
 
-        return view('accueil', ['cours' => $cours]);
+        return view('accueil', compact(
+            'totalApprenants',
+            'totalFormateurs',
+            'totalCours',
+            'coursAujourdhui'
+        ));
     }
 }

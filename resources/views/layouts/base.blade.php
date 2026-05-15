@@ -4,22 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
     <title>@yield('title')</title>
     @vite(['resources/css/app.css'])
     @stack('styles')
 </head>
 
-<body>
-    <header class="">
-        <img src="{{asset('image/Groupe-GEFOR.png')}}" alt="Logo du Groupe GEFOR">
-        <h2>Emargement</h2>
+<body class="bg-[#f0f4ff] min-h-screen flex flex-col font-[Lato]">
+
+    <header class="bg-[#006cb1] flex items-center justify-between px-8 py-4">
+        <img src="{{ asset('image/Groupe-GEFOR.png') }}" alt="Logo GEFOR" class="h-10">
+        <h2 class="text-white font-semibold text-lg tracking-wide">Emargement</h2>
+        @auth
+        <a href="{{ route('logout') }}" class="btn-logout">Se déconnecter</a>
+        @else
+            <div class="w-32"></div>
+        @endauth
     </header>
 
-    @yield('content')
+    <main class="flex-1 flex flex-col">
+        @yield('content')
+    </main>
+
 </body>
 
 </html>

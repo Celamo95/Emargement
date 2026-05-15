@@ -3,19 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Formation extends Model
 {
     protected $fillable = ['name'];
 
-    //un user a plusieurs cours
-    public function cours()
+    public function cours(): HasMany
     {
         return $this->hasMany(Cours::class);
     }
 
-    public function apprenants()
+    public function apprenants(): HasMany
     {
-        return $this->hasMany(User::class); // User::class ->va me chercher dans dans le fichier User la class user
+        return $this->hasMany(User::class);
+    }
+
+    public function participations(): HasMany
+    {
+        return $this->hasMany(Participation::class);
     }
 }

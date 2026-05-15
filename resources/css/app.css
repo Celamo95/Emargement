@@ -6,10 +6,7 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans:
-        "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
-        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-        "Noto Color Emoji";
+    --font-sans: "Lato", ui-sans-serif, system-ui, sans-serif;
 }
 
 * {
@@ -19,59 +16,42 @@
     font-family: "Lato", sans-serif;
 }
 
-body {
-    background: #f0f4ff;
-}
-
 header {
     background: #006cb1;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 12px 32px;
+    height: 70px;
 }
 
 header img {
-    width: 250px;
+    height: 45px;
+    width: auto;
 }
 
 header h2 {
     color: white;
-    font-size: 1.2rem;
-    height: 70px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    padding-top: 25px;
 }
 
-.form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 80vh;
-    gap: 20px;
-}
-.form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-input {
-    padding: 10px 20px;
-    border: 2px solid #006cb1;
-    border-radius: 5px;
-    width: 300px;
-}
-
-button {
-    background: #006cb1;
+.btn-logout {
     color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    width: 300px;
-    cursor: pointer;
+    border: 2px solid white;
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-size: 0.875rem;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.btn-logout:hover {
+    background: white;
+    color: #006cb1;
 }

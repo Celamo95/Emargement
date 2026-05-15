@@ -21,10 +21,13 @@ class CoursFactory extends Factory
         $local = 'fr_FR';
 
         //One bas DateTime for the course start
-        $start = fake($local)->dateTimeBetween('-1 year', '+1 year');
+        $heure = fake()->randomElement(['08:00:00', '13:30:00']);
+        $start = new \DateTime('today ' . $heure);
 
 
-        $end = (clone $start)->modify('+' . fake()->numberBetween(120, 240) . 'minutes');
+        $end = $heure === '08:00:00'
+            ? new \DateTime('today 12:30:00')
+            : new \DateTime('today 17:30:00');
 
         //Date of validation exist only if he course is validated
         $valide = fake()->boolean();

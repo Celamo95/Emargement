@@ -46,7 +46,7 @@ class CoursFactory extends Factory
             'date' => $start->format('Y-m-d'),
             'heure_debut' => $start->format('H:i:s'),
             'heure_fin' => $end->format('H:i:s'),
-            //'salle' => 'Salle' . fake()->numberBetween(1, 10),
+            'salle' => 'Salle' . fake()->numberBetween(1, 10),
             'date_validation' => $date_validation,
             'valide' => $valide,
 

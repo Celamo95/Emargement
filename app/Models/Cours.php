@@ -37,4 +37,9 @@ class Cours extends Model
     {
         return $this->hasMany(Participation::class);
     }
+
+    public function presences(): HasMany
+    {
+        return $this->hasMany(Presence::class, 'cours_id');
+    }
 }

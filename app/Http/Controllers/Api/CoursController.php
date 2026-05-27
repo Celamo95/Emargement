@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Cours;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CoursController extends Controller
 {
@@ -13,12 +14,35 @@ class CoursController extends Controller
      */
     public function index()
     {
-        $cours = Cours::with(['user'])
-            ->whereDate('date', '>=', now()->toDateString())
-            ->orderBy('date')
-            ->orderBy('heure_debut')
-            ->get();
+        $user = Auth::user();
 
+        if (
+            $user->statut === 'formateur'
+        ) {
+             $cours = Cours::with(['user'])
+                ->whereDate('date', '>=', now()->toDateString())
+                ->where('user_id', $user->id)
+                ->orderBy('date')
+                ->orderBy('heure_debut')
+                ->get();
+        } 
+        
+        elseif ($user->statut=== 'apprenant'){
+             $cours = Cours::with(['user'])
+                ->whereDate('date', '>=', now()->toDateString())
+                ->where('formation_id', $user->formation_id)
+                ->orderBy('date')
+                ->orderBy('heure_debut')
+                ->get();
+        } 
+        
+        else {
+            $cours = Cours::with(['user'])
+                ->whereDate('date', '>=', now()->toDateString())
+                ->orderBy('date')
+                ->orderBy('heure_debut')
+                ->get();
+        }
         return response()->json($cours);
     }
 

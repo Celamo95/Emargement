@@ -60,9 +60,9 @@ class CoursController extends Controller
             'user_id' => ['require', 'exists:users,id'],
         ]);
 
-        $cours = Cours::created($validate);
+        Cours::created($validate);
 
-        return response()->json($cours, status: 201);
+        return response()->json(true, status: 201);
     }
 
     /**
@@ -70,7 +70,7 @@ class CoursController extends Controller
      */
     public function show(int $id)
     {
-        $cours = Cours::find($id)->load(['user']);
+        $cours = Cours::find($id, 'id')->load(['user']);
 
         return response()->json($cours);
     }
@@ -97,9 +97,10 @@ class CoursController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cours $cours)
+    public function destroy(int $id)
     {
-        $cours->delete();
+        $cours = Cours::find($id, 'id');
+        $cours->delete($id);
 
         return response()->json([
             'message' => 'Cours supprimé'

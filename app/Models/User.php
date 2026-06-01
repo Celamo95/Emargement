@@ -49,6 +49,6 @@ class User extends Authenticatable
 
     public function formation()
     {
-        return $this->hasMany(Formation::class);
+        return $this->belongsTo(Formation::class);
     }
 }

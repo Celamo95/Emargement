@@ -10,6 +10,7 @@
     <title>@yield('title')</title>
     @vite(['resources/css/app.css'])
     @stack('styles')
+    @yield('css')
 </head>
 
 <body class="bg-[#f0f4ff] min-h-screen flex flex-col font-[Lato]">
@@ -27,6 +28,8 @@
     <main class="flex-1 flex flex-col">
         @yield('content')
     </main>
+
+    @yield('js')
 
 </body>
 

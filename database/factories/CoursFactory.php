@@ -19,6 +19,8 @@ class CoursFactory extends Factory
     {
 
         $local = 'fr_FR';
+        
+        $start = fake()->dateTimeBetween('-1 year', '+1 year');
 
         //One bas DateTime for the course start
         $heure = fake()->randomElement(['08:00:00', '13:30:00']);

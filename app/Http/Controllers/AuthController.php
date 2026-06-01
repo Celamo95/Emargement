@@ -26,7 +26,13 @@ class AuthController extends Controller
         // Regenerate session to prevent fixation
         $request->session()->regenerate();
 
-        return redirect()->route('accueil');
+        $statut = Auth::user()->statut;
+
+        if ($statut === 'administration') {
+            return redirect()->route('accueil');
+        }
+
+        return redirect()->route('mobile');
     }
 
     public function logout(Request $request)

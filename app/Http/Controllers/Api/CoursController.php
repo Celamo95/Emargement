@@ -19,24 +19,20 @@ class CoursController extends Controller
         if (
             $user->statut === 'formateur'
         ) {
-             $cours = Cours::with(['user'])
+            $cours = Cours::with(['user'])
                 ->whereDate('date', '>=', now()->toDateString())
                 ->where('user_id', $user->id)
                 ->orderBy('date')
                 ->orderBy('heure_debut')
                 ->get();
-        } 
-        
-        elseif ($user->statut=== 'apprenant'){
-             $cours = Cours::with(['user'])
+        } elseif ($user->statut === 'apprenant') {
+            $cours = Cours::with(['user'])
                 ->whereDate('date', '>=', now()->toDateString())
                 ->where('formation_id', $user->formation_id)
                 ->orderBy('date')
                 ->orderBy('heure_debut')
                 ->get();
-        } 
-        
-        else {
+        } else {
             $cours = Cours::with(['user'])
                 ->whereDate('date', '>=', now()->toDateString())
                 ->orderBy('date')
@@ -70,7 +66,8 @@ class CoursController extends Controller
      */
     public function show(int $id)
     {
-        $cours = Cours::find($id, 'id')->load(['user']);
+
+        $cours = Cours::with(['user'])->find($id);
 
         return response()->json($cours);
     }

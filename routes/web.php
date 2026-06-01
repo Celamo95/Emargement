@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccueilController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UsersCrudController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -33,8 +34,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/accueil', [AccueilController::class, 'getCours'])->name('accueil');
 
-    Route::get(
-        '/me',
-        [AuthController::class, 'me']
-    )->name('me');
+    Route::get('/me', [AuthController::class, 'me'])->name('me');
+    
+    Route::get('/Users/{id}/delete', [UsersCrudController::class, 'delete'])->name('users.delete');
+
+    Route::get('/Users',[UsersCrudController::class, 'list'])->name('users.list');
+
+    
 });

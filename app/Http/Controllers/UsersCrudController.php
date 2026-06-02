@@ -45,4 +45,35 @@ class UsersCrudController extends Controller
 
         return redirect()->route('users.index')->with('success', 'Utilisateur créé avec succès');
     }
+
+    public function edit($id)
+    {
+        $user = User::Find($id);
+
+        return view('users.update', ['user' => $user]);
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $validate = $request->validate([
+            'name' => ['required', 'string'],
+            'firstname' => ['required', 'string'],
+            'email' => ['required', 'email'],
+            'password' => ['nullable', 'string'],
+        ]);
+
+        if (!$request->filled('password')) {
+            unset($validate['password']);
+        }
+
+        User::whereId($id)->update($validate);
+
+        return redirect()->route('users.index')->with('success', 'Utilisateur modifié');
+    }
+
+    public function show($id){
+        $user= User::Find($id);
+
+    return view('users.show', ['user'=>$user]);
+    }
 }

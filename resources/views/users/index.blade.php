@@ -48,7 +48,11 @@ Utilisateurs
         <td>{{ $user->firstname }}</td>
         <td>{{ $user->email }}</td>
         <td>{{ $user->statut }}</td>
-        <td><a href="{{ route('users.delete', ['id'=>$user->id])}}">supprimer</a></td>
+        <td>
+            <a href="{{ route('user.show', ['id'=>$user->id])}}">Voir</a>
+            <a href="{{ route('user.edit', ['id'=>$user->id])}}">Modifier</a>
+            <a href="{{ route('user.delete', ['id'=>$user->id])}}">Supprimer</a>
+        </td>
     </tr>
 @endforeach
 </tbody>

@@ -36,11 +36,17 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/me', [AuthController::class, 'me'])->name('me');
 
-    Route::get('/Users/{id}/delete', [UsersCrudController::class, 'delete'])->name('users.delete');
+    Route::get('/Users/{id}/delete', [UsersCrudController::class, 'delete'])->name('user.delete');
 
     Route::get('/Users', [UsersCrudController::class, 'index'])->name('users.index');
 
     Route::get('/Users/create', [UsersCrudController::class, 'create'])->name('user.create');
 
     Route::post('/Users', [UsersCrudController::class, 'store'])->name('user.store');
+
+    Route::get('/Users/{id}/edit', [UsersCrudController::class, 'edit'])->name('user.edit');
+
+    Route::put('/Users/{id}', [UsersCrudController::class, 'update'])->name('user.update');
+
+    Route::get('/Users/{id}', [UsersCrudController::class, 'show'])->name('user.show');
 });

@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('title')
-Utilisateur
+Utilisateurs
 @endsection
 
 @section('css')
@@ -22,6 +22,10 @@ Utilisateur
 @endsection
 
 @section('content')
+
+<h1>Liste des utilisateurs</h1>
+
+<a href='{{route('user.create')}}'>Ajouter un utilisateur</a>
 
 <table id="table">
 

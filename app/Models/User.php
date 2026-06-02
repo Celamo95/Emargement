@@ -21,7 +21,6 @@ class User extends Authenticatable
         'password',
         'firstname',
         'statut',
-        'login',
         'formation_id',
     ];
 

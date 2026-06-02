@@ -30,15 +30,17 @@ Route::get('/mobile', function () {
 })->name('mobile');
 
 Route::middleware('auth')->group(function () {
-    
+
 
     Route::get('/accueil', [AccueilController::class, 'getCours'])->name('accueil');
 
     Route::get('/me', [AuthController::class, 'me'])->name('me');
-    
+
     Route::get('/Users/{id}/delete', [UsersCrudController::class, 'delete'])->name('users.delete');
 
-    Route::get('/Users',[UsersCrudController::class, 'list'])->name('users.list');
+    Route::get('/Users', [UsersCrudController::class, 'index'])->name('users.index');
 
-    
+    Route::get('/Users/create', [UsersCrudController::class, 'create'])->name('user.create');
+
+    Route::post('/Users', [UsersCrudController::class, 'store'])->name('user.store');
 });

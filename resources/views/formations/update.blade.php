@@ -24,16 +24,14 @@ Modifier une formation
         <input type='text' id='name' name='name' value="{{$formation->name}}" autofocus autocomplete='name'>
     </li><br>
 
-    <select name="cours[]" multiple>
-
-@foreach ($cours as $cour)
-    <option value="{{ $cour->id }}" 
-            {{ in_array($cour->id, $coursLies) ? 'selected' : '' }}>
-            {{ $cour->matiere }}
-    </option>
-@endforeach
-
-    </select>
+        <label for='matieres'>Matières :</label>
+            <select name="matieres[]" multiple>
+            @foreach ($matieres as $matiere)
+                <option value="{{ $matiere->id }}" {{ in_array($matiere->id, $matieresLiees) ? 'selected' : '' }}>
+            {{ $matiere->nom }}
+                </option>
+            @endforeach
+            </select>
 
     <br>
     <li>

@@ -11,9 +11,9 @@ Ma formation
 <p>
     NOM DE LA FORMATION : {{ $formation->name}}
     <br>
-    @foreach ($cours as $cour)
+    @foreach ($matieres as $matiere)
     
-    <p>Cours : {{ $cour->matiere}}</p>
+    <p>Cours : {{ $matiere->nom}}</p>
 
     @endforeach
 

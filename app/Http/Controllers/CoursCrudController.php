@@ -26,9 +26,12 @@ class CoursCrudController extends Controller
         // Récupère uniquement les cours de cette semaine
         $cours = Cours::with(['user', 'matiere'])
             ->whereBetween('date', [$debutSemaine, $finSemaine])
+            ->when($request->filled('formation_id'), function ($query) use ($request) {
+                $query->where('formation_id', $request->formation_id);
+            })
             ->get();
 
-        $matieres = Matiere::all();
+        $matieres = Matiere::with('user')->get();
         $formateurs = User::where('statut', 'formateur')->get();
         $formations = Formation::all();
 
@@ -62,7 +65,10 @@ class CoursCrudController extends Controller
 
         Cours::create($validate);
 
-        return redirect()->route('emploi-du-temps.index')->with('success', 'Emploi du temps créé avec succès');
+        return redirect()->route('emploi-du-temps.index', [
+            'week' => $request->date,
+            'formation_id' => $request->formation_id,
+        ])->with('success', 'Cours ajouté');
     }
 
     /**

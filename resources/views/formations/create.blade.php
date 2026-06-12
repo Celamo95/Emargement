@@ -21,12 +21,12 @@ Création formation
         <label for="name">Nom de la formation :</label>
         <input type="text" id="name" name="name">
         <br>
-        <label for='statut'>Ajouter des cours :</label>
-        <select name="cours[]" multiple>
-           @foreach ($cours as $cour)
-                   <option value="{{ $cour->id }}">{{ $cour->matiere }}</option>
-            @endforeach
-        </select>
+        <label for='matieres'>Ajouter des matières :</label>
+            <select name="matieres[]" multiple>
+        @foreach ($matieres as $matiere)
+            <option value="{{ $matiere->id }}">{{ $matiere->nom }}</option>
+        @endforeach
+            </select>   
     </li><br>
 
     <li>

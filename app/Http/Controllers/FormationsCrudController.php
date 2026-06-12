@@ -15,8 +15,7 @@ class FormationsCrudController extends Controller
      */
     public function index()
     {
-
-        $formations = Formation::with('cours')->get();
+        $formations = Formation::all();
         $matieres = Matiere::with('user')->get();
         return view('formations.index', compact('formations', 'matieres'));
     }
@@ -26,9 +25,8 @@ class FormationsCrudController extends Controller
      */
     public function create()
     {
-        $cours = Cours::all();
-
-        return view('formations.create', compact('cours'));
+        $matieres = Matiere::all();
+        return view('formations.create', compact('matieres'));
     }
 
     /**
@@ -47,11 +45,11 @@ class FormationsCrudController extends Controller
         ]);
 
         // Si des cours ont été sélectionnés on les lie à la formation
-        if ($request->has('cours')) {
-            foreach ($request->cours as $coursId) {
-                DB::table('participation')->insert([
+        if ($request->has('matieres')) {
+            foreach ($request->matieres as $matiereId) {
+                DB::table('formation_matiere')->insert([
                     'formation_id' => $formation->id,
-                    'cours_id'     => $coursId,
+                    'matiere_id'     => $matiereId,
                     'created_at'   => now(),
                     'updated_at'   => now(),
                 ]);
@@ -66,16 +64,16 @@ class FormationsCrudController extends Controller
      */
     public function show(string $id)
     {
-        $formation = Formation::Find($id);
+        $formation = Formation::find($id);
 
-        $coursLies = DB::table('participation')
+        $matiereIds = DB::table('formation_matiere')
             ->where('formation_id', $id)
-            ->pluck('cours_id')
+            ->pluck('matiere_id')
             ->toArray();
 
-        $cours = Cours::whereIn('id', $coursLies)->get();
+        $matieres = Matiere::whereIn('id', $matiereIds)->get();
 
-        return view('formations.show', compact('formation', 'cours', 'coursLies'));
+        return view('formations.show', compact('formation', 'matieres'));
     }
 
     /**
@@ -84,16 +82,14 @@ class FormationsCrudController extends Controller
     public function edit(string $id)
     {
         $formation = Formation::find($id);
-        $cours = Cours::all();
+        $matieres = Matiere::all();
 
-        // Récupère les ids des cours déjà liés à cette formation
-
-        $coursLies = DB::table('participation')
+        $matieresLiees = DB::table('formation_matiere')
             ->where('formation_id', $id)
-            ->pluck('cours_id')
+            ->pluck('matiere_id')
             ->toArray();
 
-        return view('formations.update', compact('formation', 'cours', 'coursLies'));
+        return view('formations.update', compact('formation', 'matieres', 'matieresLiees'));
     }
 
     /**
@@ -107,15 +103,13 @@ class FormationsCrudController extends Controller
 
         Formation::whereId($id)->update($validate);
 
-        // Supprime tous les cours liés à cette formation
-        DB::table('participation')->where('formation_id', $id)->delete();
+        DB::table('formation_matiere')->where('formation_id', $id)->delete();
 
-        // Réinsère les nouveaux cours sélectionnés
-        if ($request->has('cours')) {
-            foreach ($request->cours as $coursId) {
-                DB::table('participation')->insert([
+        if ($request->has('matieres')) {
+            foreach ($request->matieres as $matiereId) {
+                DB::table('formation_matiere')->insert([
                     'formation_id' => $id,
-                    'cours_id'     => $coursId,
+                    'matiere_id'   => $matiereId,
                     'created_at'   => now(),
                     'updated_at'   => now(),
                 ]);

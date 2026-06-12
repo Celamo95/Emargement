@@ -23,8 +23,9 @@ Emploi du temps
 
         <label for="formation">Formation</label>
         <select name="formation_id" id="formation">
-
+            <option value="">-- Sélectionner --</option>
             @foreach($formations as $formation)
+                
                 <option value="{{ $formation->id }}">{{ $formation->name }}</option>
             @endforeach
 
@@ -33,6 +34,7 @@ Emploi du temps
     
         <label for="matiere">Matière</label>
         <select name="matiere_id" id="matiere">
+            <option value="">-- Sélectionner --</option>
             @foreach($matieres as $matiere)
                 <option value="{{ $matiere->id }}">{{ $matiere->nom }}</option>
             @endforeach
@@ -53,7 +55,7 @@ Emploi du temps
 
         <label for="formateur">Formateur</label>
         <select name="user_id" id="formateur">
-
+            <option value="">-- Sélectionner --</option>
             @foreach($formateurs as $formateur)
                 <option value="{{ $formateur->id }}">{{ $formateur->name }} {{ $formateur->firstname }}</option>
             @endforeach
@@ -68,11 +70,22 @@ Emploi du temps
 <div>
  {{-- Navigation par semaine --}}
 <form method="GET" action="{{ route('emploi-du-temps.index') }}">
-    <a href="{{ route('emploi-du-temps.index', ['week' => $debutSemaine->copy()->subWeek()->toDateString()]) }}">← Semaine précédente</a>
+
+        <select name="formation_id">
+            <option value="">-- Toutes les formations --</option>
+        @foreach($formations as $formation)
+            <option value="{{ $formation->id }}" {{ request('formation_id') == $formation->id ? 'selected' : '' }}>
+                {{ $formation->name }}
+            </option>
+        @endforeach
+        </select>
+            <button type="submit">Filtrer</button>
+
+    <a href="{{ route('emploi-du-temps.index', ['week' => $debutSemaine->copy()->subWeek()->toDateString(), 'formation_id' => request('formation_id')]) }}">← Semaine précédente</a>
     
     <span>Semaine du {{ $debutSemaine->format('d/m/Y') }} au {{ $debutSemaine->copy()->endOfWeek()->format('d/m/Y') }}</span>
     
-    <a href="{{ route('emploi-du-temps.index', ['week' => $debutSemaine->copy()->addWeek()->toDateString()]) }}">Semaine suivante →</a>
+    <a href="{{ route('emploi-du-temps.index', ['week' => $debutSemaine->copy()->addWeek()->toDateString(), 'formation_id' => request('formation_id')]) }}">Semaine suivante →</a>
 </form>
 
 <table>
@@ -130,8 +143,28 @@ Emploi du temps
         </tr>
     @endfor
 </tbody> 
-    
-
 </table>
 </div>
+
+@push('scripts')
+<script>
+    // Données des matières avec leurs formateurs
+    const matieres = @json($matieres);
+
+    // Quand on change la matière sélectionnée
+    document.getElementById('matiere').addEventListener('change', function() {
+        const matiereId = this.value;
+        const formateurSelect = document.getElementById('formateur');
+        
+        // Trouve la matière sélectionnée
+        const matiere = matieres.find(m => m.id == matiereId);
+        
+        if (matiere && matiere.user) {
+            // Sélectionne automatiquement le formateur lié
+            formateurSelect.value = matiere.user.id;
+        }
+    });
+</script>
+@endpush
+
 @endsection

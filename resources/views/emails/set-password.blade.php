@@ -7,7 +7,7 @@
 {{-- On construit l'URL avec le token et l'email en paramètres --}}
 {{-- L'utilisateur cliquera sur ce lien pour arriver sur le formulaire --}}
 
-<a href="{{ url('/set-password?token=' . $token . '&email=' . $email) }}">
+<a href="{!!route('set.password.form', ['token' => $token, 'email' => $email])!!}">
     Créer mon mot de passe
 </a>
 

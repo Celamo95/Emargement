@@ -20,9 +20,10 @@ Créer mon mot de passe
     @csrf
     
     {{-- On récupère le token et l'email depuis l'URL et on les met en hidden --}}
-    <input type="hidden" name="token" value="{{ request('token') }}">
-    <input type="hidden" name="email" value="{{ request('email') }}">
-
+    {{--old recupere les valeurs precedentes apres une erreur de validation--}}
+    <input type="hidden" name="token" value="{{ old('token', $token) }}">
+    <input type="hidden" name="email" value="{{ old('email', $email) }}">
+        
     <label for="password">Mot de passe :</label>
     <input type="password" id="password" name="password">
 

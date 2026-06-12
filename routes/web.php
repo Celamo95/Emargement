@@ -32,6 +32,12 @@ Route::get('/mobile', function () {
     return view('mobile');
 })->name('mobile');
 
+// Affiche le formulaire de création du mot de passe
+Route::get('/set-password', [UsersCrudController::class, 'setPasswordForm'])->name('set.password.form');
+
+// Enregistre le nouveau mot de passe
+Route::post('/set-password', [UsersCrudController::class, 'setPassword'])->name('set.password');
+
 Route::middleware('auth')->group(function () {
 
     Route::get('/accueil', [AccueilController::class, 'getCours'])->name('accueil');
@@ -53,12 +59,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/Users/{id}', [UsersCrudController::class, 'update'])->name('user.update');
 
     Route::get('/Users/{id}', [UsersCrudController::class, 'show'])->name('user.show');
-
-    // Affiche le formulaire de création du mot de passe
-    Route::get('/set-password', [UsersCrudController::class, 'setPasswordForm'])->name('set.password.form');
-
-    // Enregistre le nouveau mot de passe
-    Route::post('/set-password', [UsersCrudController::class, 'setPassword'])->name('set.password');
 
     //Formation
 

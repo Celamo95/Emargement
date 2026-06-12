@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Formation;
 use App\Models\Cours;
 use App\Models\User;
+use App\Models\Matiere;
 
 class CoursCrudController extends Controller
 {
@@ -27,7 +28,7 @@ class CoursCrudController extends Controller
             ->whereBetween('date', [$debutSemaine, $finSemaine])
             ->get();
 
-        $matieres = Cours::distinct()->pluck('matiere_id');
+        $matieres = Matiere::all();
         $formateurs = User::where('statut', 'formateur')->get();
         $formations = Formation::all();
 
@@ -50,7 +51,7 @@ class CoursCrudController extends Controller
     {
 
         $validate = $request->validate([
-            'matiere'      => ['required', 'string'],
+            'matiere_id'      => ['required', 'string'],
             'date'         => ['required', 'date'],
             'heure_debut'  => ['required'],
             'heure_fin'    => ['required'],
@@ -77,7 +78,15 @@ class CoursCrudController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // Récupère le cours à modifier
+        $cours = Cours::find($id);
+
+        // Récupère les listes pour les selects
+        $matieres = Matiere::all();
+        $formateurs = User::where('statut', 'formateur')->get();
+        $formations = Formation::all();
+
+        return view('cours.update', compact('cours', 'matieres', 'formateurs', 'formations'));
     }
 
     /**
@@ -85,7 +94,19 @@ class CoursCrudController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validate = $request->validate([
+            'formation_id' => ['required', 'exists:formations,id'],
+            'matiere_id'   => ['required', 'exists:matieres,id'],
+            'date'         => ['required', 'date'],
+            'heure_debut'  => ['required'],
+            'heure_fin'    => ['required'],
+            'salle'        => ['required', 'string'],
+            'user_id'      => ['required', 'exists:users,id'],
+        ]);
+
+        Cours::whereId($id)->update($validate);
+
+        return redirect()->route('emploi-du-temps.index')->with('success', 'Cours modifié');
     }
 
     /**
@@ -93,6 +114,9 @@ class CoursCrudController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $cours = Cours::findOrFail($id);
+        $cours->delete();
+
+        return redirect(route('emploi-du-temps.index'));
     }
 }

@@ -30,14 +30,13 @@ Emploi du temps
 
         </select>
 
-        <label for="matiere">Matière</label>
-        <input type="text" name="matiere" id="matiere" list="matieres">
     
-        <datalist id="matieres">
+        <label for="matiere">Matière</label>
+        <select name="matiere_id" id="matiere">
             @foreach($matieres as $matiere)
-                <option value="{{ $matiere }}">
+                <option value="{{ $matiere->id }}">{{ $matiere->nom }}</option>
             @endforeach
-        </datalist>
+        </select>
 
         <label for="date">Date</label>
         <input type="date" name="date" id="date">
@@ -104,9 +103,29 @@ Emploi du temps
         <tr>
             <td>{{ $joursFr[$i] }}</td>
             <td>{{ \Carbon\Carbon::parse($dateJour)->format('d/m/Y') }}</td>
-            <td>{{ $matin ? $matin->matiere . ' - ' . ($matin->user->name ?? 'N/A') : '' }}</td>
+            <td>
+                {{ $matin ? ($matin->matiere->nom ?? 'N/A') . ' - ' . ($matin->user->name ?? 'N/A') : '' }}
+            @if($matin)
+                <a href="{{ route('emploi-du-temps.edit', $matin->id) }}">Modifier</a>
+                <form method="POST" action="{{ route('emploi-du-temps.destroy', $matin->id) }}">
+            @csrf
+            @method('DELETE')
+                    <button type="submit">Supprimer</button>
+                </form>
+            @endif
+            </td>
             <td>{{ $matin ? $matin->salle : '' }}</td>
-            <td>{{ $apmidi ? $apmidi->matiere . ' - ' . ($apmidi->user->name ?? 'N/A') : '' }}</td>
+            <td>
+                {{ $apmidi ? ($apmidi->matiere->nom ?? 'N/A') . ' - ' . ($apmidi->user->name ?? 'N/A') : '' }}
+            @if($apmidi)
+                <a href="{{ route('emploi-du-temps.edit', $apmidi->id) }}">Modifier</a>
+                <form method="POST" action="{{ route('emploi-du-temps.destroy', $apmidi->id) }}">
+            @csrf
+            @method('DELETE')
+                    <button   button type="submit">Supprimer</button>
+                </form>
+            @endif
+            </td>
             <td>{{ $apmidi ? $apmidi->salle : '' }}</td>
         </tr>
     @endfor

@@ -33,7 +33,9 @@ class ApiAuthController extends Controller
             'user'       => [
                 'id'    => $user->id,
                 'name'  => $user->name,
+                'firstname' => $user->firstname,
                 'email' => $user->email,
+                'formation' => $user->formation,
             ],
             'token'      => $token,
             'token_type' => 'Bearer',

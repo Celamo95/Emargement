@@ -31,11 +31,6 @@ Création utilisateur
         <input type='email' id='email' name='email'autocomplete='email'>
     </li><br>
 
-    <li>
-        <label for='password'>Mot de passe :</label>
-        <input type='password' id='password' name='password'autocomplete='password'>
-    </li><br>
-
 
     <li>
         <label for='statut'>Rôle :</label>

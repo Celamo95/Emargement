@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SetPasswordMail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UsersCrudController extends Controller
 {
@@ -37,23 +41,36 @@ class UsersCrudController extends Controller
             'name' => ['required', 'string'],
             'firstname' => ['required', 'string'],
             'email' => ['required', 'email'],
-            'password' => ['required', 'string'],
             'statut' => ['required'],
         ]);
 
+        $validate['password'] = bcrypt('non_defini_' . uniqid());
+
         User::create($validate);
+
+        $token = \Illuminate\Support\Str::random(64);
+
+        DB::table('password_reset_tokens')->insert([
+            'email'      => $request->email,
+            'token'      => bcrypt($token),
+            'created_at' => now(),
+        ]);
+
+        // On envoie le mail à l'utilisateur avec son email et le token non hashé
+        // On passe $token et pas bcrypt($token) car l'utilisateur a besoin de la valeur originale dans l'URL
+        Mail::to($request->email)->send(new SetPasswordMail($request->email, $token));
 
         return redirect()->route('users.index')->with('success', 'Utilisateur créé avec succès');
     }
 
-    public function edit($id)
+    public function edit(int $id)
     {
         $user = User::Find($id);
 
         return view('users.update', ['user' => $user]);
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
         $validate = $request->validate([
             'name' => ['required', 'string'],
@@ -71,9 +88,19 @@ class UsersCrudController extends Controller
         return redirect()->route('users.index')->with('success', 'Utilisateur modifié');
     }
 
-    public function show($id){
-        $user= User::Find($id);
+    public function show(int $id)
+    {
+        $user = User::Find($id);
 
-    return view('users.show', ['user'=>$user]);
+        return view('users.show', ['user' => $user]);
+    }
+
+    // Affiche le formulaire — reçoit token et email depuis l'URL
+    public function setPasswordForm(Request $request)
+    {
+        return view('set-password', [
+            'token' => $request->query('token'),
+            'email' => $request->query('email'),
+        ]);
     }
 }

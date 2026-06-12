@@ -12,7 +12,7 @@ class Cours extends Model
     use HasFactory;
 
     protected $fillable = [
-        'matiere',
+        'matiere_id',
         'date',
         'heure_debut',
         'heure_fin',
@@ -28,9 +28,9 @@ class Cours extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function formation(): BelongsTo
+    public function matiere(): BelongsTo
     {
-        return $this->belongsTo(Formation::class, 'formation_id');
+        return $this->belongsTo(Matiere::class);
     }
 
     public function participations(): HasMany

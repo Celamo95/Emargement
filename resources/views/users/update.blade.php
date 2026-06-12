@@ -4,6 +4,11 @@
 Modifier un utilisateur
 @endsection
 
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        <p>{{ $error }}</p>
+    @endforeach
+@endif
 
 @section('content')
 

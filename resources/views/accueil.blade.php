@@ -16,12 +16,12 @@ Tableau de bord
             <p style="font-size:0.875rem; color:#6b7280; margin-top:8px;">Ajouter, modifier, supprimer</p>
         </a>
 
-        <a href="#" style="background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.08); padding:60px 40px; display:flex; flex-direction:column; align-items:center; text-decoration:none; transition:box-shadow 0.2s;">
-            <p style="font-size:1.2rem; font-weight:700; color:#006cb1;">Classes</p>
-            <p style="font-size:0.875rem; color:#6b7280; margin-top:8px;">Créer et gérer les groupes</p>
+        <a href="{{route('formations.index')}}" style="background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.08); padding:60px 40px; display:flex; flex-direction:column; align-items:center; text-decoration:none; transition:box-shadow 0.2s;">
+            <p style="font-size:1.2rem; font-weight:700; color:#006cb1;">Formations</p>
+            <p style="font-size:0.875rem; color:#6b7280; margin-top:8px;">Gérer les formations et les classes</p>
         </a>
 
-        <a href="#" style="background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.08); padding:60px 40px; display:flex; flex-direction:column; align-items:center; text-decoration:none; transition:box-shadow 0.2s;">
+        <a href="{{route('emploi-du-temps.index')}}" style="background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.08); padding:60px 40px; display:flex; flex-direction:column; align-items:center; text-decoration:none; transition:box-shadow 0.2s;">
             <p style="font-size:1.2rem; font-weight:700; color:#006cb1;">Emploi du temps</p>
             <p style="font-size:0.875rem; color:#6b7280; margin-top:8px;">Créer et modifier les cours</p>
         </a>

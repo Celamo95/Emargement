@@ -122,11 +122,10 @@ class UsersCrudController extends Controller
         if (!$record || !Hash::check($request->token, $record->token)) {
             return back()->with('error', 'Lien invalide ou expiré.');
         }
-dd('token valide - on continue');
         User::where('email', $request->email)->update([
             'password' => bcrypt($request->password),
         ]);
-
+dd('mot de passe mis à jour');
         DB::table('password_reset_tokens')->where('email', $request->email)->delete();
 
         Auth::logout();

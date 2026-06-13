@@ -114,12 +114,11 @@ class UsersCrudController extends Controller
             'email'    => ['required', 'email'],
             'password' => ['required', 'string', 'min:12', 'confirmed'],
         ]);
-        dd($validated);
 
         $record = DB::table('password_reset_tokens')
             ->where('email', $request->email)
             ->first();
-
+        dd($record);
         if (!$record || !Hash::check($request->token, $record->token)) {
             return back()->with('error', 'Lien invalide ou expiré.');
         }

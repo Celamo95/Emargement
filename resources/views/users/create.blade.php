@@ -4,48 +4,49 @@
 Création utilisateur
 @endsection
 
-@push('styles')
-@vite('resources/css/app.css')
-@endpush
-
 @section('content')
 
-<h1>Création d'un utilisateur</h1>
-<br><br>
+<h1 class="page-title">Création d'un utilisateur</h1>
 
-<form method='POST' action='{{route('user.store')}}'>
-@csrf
-<ul>
-    <li>
-        <label for='name'>Nom :</label>
-        <input type='text' id='name' name='name' autofocus autocomplete="name">
-    </li><br>
+@if ($errors->any())
+    <div style="color:#dc2626; margin-bottom:16px;">
+        @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    </div>
+@endif
 
-    <li>
-        <label for='firstname'>Prénom :</label>
-        <input type='text' id='firstname' name='firstname' autocomplete="given-name">
-    </li><br>
+<div class="content-card" style="max-width:600px;">
+    <form method='POST' action='{{ route('user.store') }}'>
+        @csrf
 
-    <li>
-        <label for='email'>Email :</label>
-        <input type='email' id='email' name='email'autocomplete='email'>
-    </li><br>
+        <div class="form-group">
+            <label class="form-label" for='name'>Nom</label>
+            <input class="form-input" type='text' id='name' name='name' autofocus autocomplete="name">
+        </div>
 
+        <div class="form-group">
+            <label class="form-label" for='firstname'>Prénom</label>
+            <input class="form-input" type='text' id='firstname' name='firstname' autocomplete="given-name">
+        </div>
 
-    <li>
-        <label for='statut'>Rôle :</label>
-        <select name="statut" id="statut">
-            <option value="">--Choisir une option--</option>
-            <option value="apprenant">Apprenant</option>
-            <option value="formateur">Formateur</option>
-            <option value="administration">Administration</option>
-        </select>
-    </li><br>
+        <div class="form-group">
+            <label class="form-label" for='email'>Email</label>
+            <input class="form-input" type='email' id='email' name='email' autocomplete='email'>
+        </div>
 
-    <li>
-        <button type="submit">Créer</button>
-    </li>
-</ul>
-</form>
+        <div class="form-group">
+            <label class="form-label" for='statut'>Rôle</label>
+            <select class="form-input" name="statut" id="statut">
+                <option value="">-- Choisir --</option>
+                <option value="apprenant">Apprenant</option>
+                <option value="formateur">Formateur</option>
+                <option value="administration">Administration</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-primary">Créer</button>
+    </form>
+</div>
 
 @endsection

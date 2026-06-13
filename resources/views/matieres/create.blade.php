@@ -1,41 +1,42 @@
 @extends('layouts.base')
 
 @section('title')
-Création formation
+Créer une matière
 @endsection
-
-@push('styles')
-@vite('resources/css/app.css')
-@endpush
 
 @section('content')
 
-<h1>Création d'une matière</h1>
-<br><br>
+<h1 class="page-title">Créer une matière</h1>
 
-<form method='POST' action='{{route('matieres.store')}}'>
-@csrf
-<ul>
-   
-    <li>
-        <label for="name">Nom de la matiere :</label>
-        <input type="text" id="name" name="nom">
+@if ($errors->any())
+    <div style="color:#dc2626; margin-bottom:16px;">
+        @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    </div>
+@endif
 
-        <br>
+<div class="content-card" style="max-width:600px;">
+    <form method='POST' action='{{ route('matieres.store') }}'>
+        @csrf
 
-       <label for="formateur">Nom du formateur :</label>
-        <select name="user_id" id="formateur">
-            @foreach($formateurs as $formateur)
-                <option value="{{ $formateur->id }}">{{ $formateur->name }} {{ $formateur->firstname }}</option>
-            @endforeach
-        </select>
-        
-    </li><br>
+        <div class="form-group">
+            <label class="form-label" for="nom">Nom de la matière</label>
+            <input class="form-input" type="text" id="nom" name="nom">
+        </div>
 
-    <li>
-        <button type="submit">Créer</button>
-    </li>
-</ul>
-</form>
+        <div class="form-group">
+            <label class="form-label" for="formateur">Formateur</label>
+            <select class="form-input" name="user_id" id="formateur">
+                <option value="">-- Sélectionner --</option>
+                @foreach($formateurs as $formateur)
+                    <option value="{{ $formateur->id }}">{{ $formateur->name }} {{ $formateur->firstname }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <button type="submit" class="btn-primary">Créer</button>
+    </form>
+</div>
 
 @endsection

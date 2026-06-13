@@ -4,52 +4,45 @@
 Modifier un utilisateur
 @endsection
 
-@if ($errors->any())
-    @foreach ($errors->all() as $error)
-        <p>{{ $error }}</p>
-    @endforeach
-@endif
-
 @section('content')
 
-<h1>Création d'un utilisateur</h1>
-<br><br>
+<h1 class="page-title">Modifier un utilisateur</h1>
+
 @if ($errors->any())
-    @foreach ($errors->all() as $error)
-        <p>{{ $error }}</p>
-    @endforeach
+    <div style="color:#dc2626; margin-bottom:16px;">
+        @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    </div>
 @endif
 
-<form method='POST' action='{{route('user.update',['id'=>$user->id])}}'>
-@csrf
-@method('PUT')
-<ul>
-    <li>
-        <label for='name'>Nom :</label>
-        <input type='text' id='name' name='name' value="{{$user->name}}" autofocus autocomplete='name'>
-    </li><br>
+<div class="content-card" style="max-width:600px;">
+    <form method='POST' action='{{ route('user.update', ['id'=>$user->id]) }}'>
+        @csrf
+        @method('PUT')
 
-    <li>
-        <label for='firstname'>Prénom :</label>
-        <input type='text' id='firstname' name='firstname' value="{{$user->firstname}}" autocomplete='given-name'>
-    </li><br>
+        <div class="form-group">
+            <label class="form-label" for='name'>Nom</label>
+            <input class="form-input" type='text' id='name' name='name' value="{{ $user->name }}" autocomplete='name'>
+        </div>
 
-    <li>
-        <label for='email'>Email :</label>
-        <input type='email' id='email' name='email' value="{{$user->email}}" autocomplete='email'>
-    </li><br>
+        <div class="form-group">
+            <label class="form-label" for='firstname'>Prénom</label>
+            <input class="form-input" type='text' id='firstname' name='firstname' value="{{ $user->firstname }}" autocomplete='given-name'>
+        </div>
 
-    <li>
-        <label for='password'>Mot de passe :</label>
-        <input type='password' id='password' name='password' autocomplete='off'>
-    </li><br>
+        <div class="form-group">
+            <label class="form-label" for='email'>Email</label>
+            <input class="form-input" type='email' id='email' name='email' value="{{ $user->email }}" autocomplete='email'>
+        </div>
 
+        <div class="form-group">
+            <label class="form-label" for='password'>Nouveau mot de passe <span style="color:#6b7280; font-weight:400;">(laisser vide pour ne pas changer)</span></label>
+            <input class="form-input" type='password' id='password' name='password' autocomplete='off'>
+        </div>
 
-
-    <li>
-        <button type="submit">Modifier</button>
-    </li>
-</ul>
-</form>
+        <button type="submit" class="btn-primary">Modifier</button>
+    </form>
+</div>
 
 @endsection

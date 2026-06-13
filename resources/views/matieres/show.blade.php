@@ -4,26 +4,33 @@
 Détails de la matière
 @endsection
 
-@push('styles')
 @vite('resources/css/app.css')
-@endpush
+
 
 @section('content')
     
- <h1>Détails de la matière</h1>
+ <h1 class="page-title">Détails de la matière</h1>
 
-<p>Nom : {{ $matiere->nom }}</p>
-<p>Formateur : {{ $matiere->user->name ?? 'N/A' }} {{ $matiere->user->firstname ?? '' }}</p>
+ <div class="content-card">
+    <div class="form-group">
+        <span class="detail-label">Nom</span>
+        <span class="detail-value">{{$matiere->nom}}</span>
+    </div>
 
-<a href="{{ route('matieres.edit', $matiere->id) }}">Modifier</a>
+    <div class="form-group">
+        <span class="detail-label">Formateur</span>
+        <span class="detail-value">{{ $matiere->user->name ?? 'N/A' }} {{ $matiere->user->firstname ?? '' }}</span>
+    </div>
 
-<form method="POST" action="{{ route('matieres.destroy', $matiere->id) }}">
-    @csrf
-    @method('DELETE')
-    <button type="submit">Supprimer</button>
-</form>
+    <div style="display: flex; gap:12px; margin-top:16px;">
+        <a href="{{ route('matieres.edit', $matiere->id) }}" class="btn-primary">Modifier</a>
 
-
-        
+        <form method="POST" action="{{ route('matieres.destroy', $matiere->id) }}">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn-danger">Supprimer</button>
+        </form>
+    </div>
+ </div>
 
 @endsection

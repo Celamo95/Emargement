@@ -13,49 +13,46 @@ Utilisateurs
 <script src="https://cdn.datatables.net/2.3.8/js/dataTables.min.js"></script>
 <script>
     var table = new DataTable('#table', {
-    language: {
-        url: 'https://cdn.datatables.net/plug-ins/2.3.8/i18n/fr-FR.json',
-    },
-});
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/2.3.8/i18n/fr-FR.json',
+        },
+    });
 </script>
-
 @endsection
 
 @section('content')
 
-<h1>Liste des utilisateurs</h1>
+<h1 class="page-title">Liste des utilisateurs</h1>
 
-<a href='{{route('user.create')}}'>Ajouter un utilisateur</a>
+<a href='{{ route('user.create') }}' class="btn-primary" style="margin-bottom: 16px;">Ajouter un utilisateur</a>
 
-<table id="table">
+<div class="content-card">
+    <table id="table" class="data-table">
+        <thead>
+            <tr>
+                <th>Formation</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($users as $user)
+            <tr>
+                <td>{{ $user->formation->name ?? 'N/A' }}</td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->firstname }}</td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->statut }}</td>
+                <td style="display:flex; gap:8px;">
+                    <a href="{{ route('user.show', ['id'=>$user->id]) }}" class="btn-primary">Voir</a>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 
-<thead>
-    <tr>
-        <th>Formation</th>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Email</th>
-        <th>Rôle</th>
-        <th>Action</th>
-    </tr>
-</thead>
-
-<tbody>
-@foreach ($users as $user)
-    <tr>
-        <td>{{ $user->formation->name ?? 'N/A' }}</td>
-        <td>{{ $user->name }}</td>
-        <td>{{ $user->firstname }}</td>
-        <td>{{ $user->email }}</td>
-        <td>{{ $user->statut }}</td>
-        <td>
-            <a href="{{ route('user.show', ['id'=>$user->id])}}">Voir</a>
-            <a href="{{ route('user.edit', ['id'=>$user->id])}}">Modifier</a>
-            <a href="{{ route('user.delete', ['id'=>$user->id])}}">Supprimer</a>
-        </td>
-    </tr>
-@endforeach
-</tbody>
-
-</table>
- @endsection
+@endsection

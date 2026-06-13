@@ -128,7 +128,6 @@ class UsersCrudController extends Controller
         DB::table('password_reset_tokens')->where('email', $request->email)->delete();
 
         Auth::logout();
-        dd('avant redirect');
 
         return redirect()->route('login')->with('success', 'Mot de passe créé, vous pouvez vous connecter.');
     }

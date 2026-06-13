@@ -109,12 +109,12 @@ class UsersCrudController extends Controller
 
     public function setPassword(Request $request)
     {
-        dd($request->all());
         $validated = $request->validate([
             'token'    => ['required'],
             'email'    => ['required', 'email'],
             'password' => ['required', 'string', 'min:12', 'confirmed'],
         ]);
+        dd($validated);
 
         $record = DB::table('password_reset_tokens')
             ->where('email', $request->email)

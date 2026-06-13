@@ -24,7 +24,7 @@ Créer mon mot de passe
         <form method="POST" action="{{ route('set.password') }}" class="login-form">
             @csrf
             <input type="hidden" name="token" value="{{ old('token', $token) }}">
-            <input type="hidden" name="email" value="{{ old('email', $email) }}">
+            <input type="hidden" name="email" value="{{ old('email', urldecode($email)) }}">
 
             <input class="login-input" type="password" id="password" name="password" placeholder="Mot de passe">
             <input class="login-input" type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirmer le mot de passe">

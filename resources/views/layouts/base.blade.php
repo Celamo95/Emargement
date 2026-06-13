@@ -25,7 +25,7 @@
     </header>
 
     @auth
-        @if(Auth::user()->statut === 'administration'&& request()->route()->getName() !== 'accueil')
+        @if(Auth::user()->statut === 'administration' && !in_array(request()->route()->getName(), ['accueil', 'set.password.form', 'set.password']))
         {{-- Layout avec menu latéral --}}
         <div class="admin-layout">
             <aside class="sidebar">

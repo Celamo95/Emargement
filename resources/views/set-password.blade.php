@@ -6,31 +6,36 @@ Créer mon mot de passe
 
 @section('content')
 
-<h1>Créer mon mot de passe</h1>
+<div class="login-wrapper">
+    <div class="login-card">
 
-@if ($errors->any())
-    @foreach ($errors->all() as $error)
-        <p>{{ $error }}</p>
-    @endforeach
-@endif
+        <h1 style="text-align:center; color:#006cb1; font-size:1.3rem; font-weight:700; margin-bottom:24px;">
+            Créer mon mot de passe
+        </h1>
 
-{{-- Le formulaire envoie en POST avec le token et l'email en champs cachés --}}
-{{-- L'utilisateur ne les voit pas mais ils sont envoyés avec le formulaire --}}
-<form method="POST" action="{{ route('set.password') }}">
-    @csrf
-    
-    {{-- On récupère le token et l'email depuis l'URL et on les met en hidden --}}
-    {{--old recupere les valeurs precedentes apres une erreur de validation--}}
-    <input type="hidden" name="token" value="{{ old('token', $token) }}">
-    <input type="hidden" name="email" value="{{ old('email', $email) }}">
-        
-    <label for="password">Mot de passe :</label>
-    <input type="password" id="password" name="password">
+        @if ($errors->any())
+            <div style="color:#dc2626; margin-bottom:16px;">
+                @foreach ($errors->all() as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
 
-    <label for="password_confirmation">Confirmer le mot de passe :</label>
-    <input type="password" id="password_confirmation" name="password_confirmation">
+        <form method="POST" action="{{ route('set.password') }}" class="login-form">
+            @csrf
+            <input type="hidden" name="token" value="{{ old('token', $token) }}">
+            <input type="hidden" name="email" value="{{ old('email', $email) }}">
 
-    <button type="submit">Valider</button>
-</form>
+            <input class="login-input" type="password" id="password" name="password" placeholder="Mot de passe">
+            <input class="login-input" type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirmer le mot de passe">
+
+            <small style="color:#6b7280; text-align:center;">
+                12 caractères minimum, majuscule, minuscule, chiffre et caractère spécial
+            </small>
+
+            <button type="submit" class="login-btn">Valider</button>
+        </form>
+    </div>
+</div>
 
 @endsection

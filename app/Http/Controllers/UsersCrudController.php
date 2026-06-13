@@ -118,15 +118,11 @@ class UsersCrudController extends Controller
         $record = DB::table('password_reset_tokens')
             ->where('email', $request->email)
             ->first();
-            dd([
-    'token_request' => $request->token,
-    'token_bdd' => $record ? $record->token : 'null',
-    'hash_check' => $record ? Hash::check($request->token, $record->token) : false
-]);
+    
         if (!$record || !Hash::check($request->token, $record->token)) {
             return back()->with('error', 'Lien invalide ou expiré.');
         }
-
+dd('token valide - on continue');
         User::where('email', $request->email)->update([
             'password' => bcrypt($request->password),
         ]);

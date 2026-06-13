@@ -109,6 +109,7 @@ class UsersCrudController extends Controller
 
     public function setPassword(Request $request)
     {
+        dd($request->all());
         $validated = $request->validate([
             'token'    => ['required'],
             'email'    => ['required', 'email'],

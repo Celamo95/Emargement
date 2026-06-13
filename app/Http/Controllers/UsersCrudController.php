@@ -58,8 +58,6 @@ class UsersCrudController extends Controller
                 'created_at' => now(),
             ]
         );
-        dd(DB::table('password_reset_tokens')->where('email', $request->email)->first());
-
 
         // On envoie le mail à l'utilisateur avec son email et le token non hashé
         // On passe $token et pas bcrypt($token) car l'utilisateur a besoin de la valeur originale dans l'URL
@@ -120,6 +118,11 @@ class UsersCrudController extends Controller
         $record = DB::table('password_reset_tokens')
             ->where('email', $request->email)
             ->first();
+            dd([
+    'token_request' => $request->token,
+    'token_bdd' => $record ? $record->token : 'null',
+    'hash_check' => $record ? Hash::check($request->token, $record->token) : false
+]);
         if (!$record || !Hash::check($request->token, $record->token)) {
             return back()->with('error', 'Lien invalide ou expiré.');
         }

@@ -36,9 +36,16 @@ Modifier un utilisateur
             <input class="form-input" type='email' id='email' name='email' value="{{ $user->email }}" autocomplete='email'>
         </div>
 
-        <div class="form-group">
-            <label class="form-label" for='password'>Nouveau mot de passe <span style="color:#6b7280; font-weight:400;">(laisser vide pour ne pas changer)</span></label>
-            <input class="form-input" type='password' id='password' name='password' autocomplete='off'>
+       <div class="form-group">
+            <label class="form-label" for='formation'>Formation</label>
+            <select class="form-input" name="formation_id" id="formation">
+                <option value="">-- Aucune --</option>
+            @foreach($formations as $formation)
+                <option value="{{ $formation->id }}" {{ $formation->id == $user->formation_id ? 'selected' : '' }}>
+                {{ $formation->name }}
+                </option>
+            @endforeach
+            </select>
         </div>
 
         <button type="submit" class="btn-primary">Modifier</button>

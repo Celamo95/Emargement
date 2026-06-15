@@ -45,6 +45,16 @@ Création utilisateur
             </select>
         </div>
 
+        <div class="form-group">
+            <label class="form-label" for='formation'>Formation</label>
+            <select class="form-input" name="formation_id" id="formation">
+                <option value="">-- Aucune --</option>
+            @foreach($formations as $formation)
+                <option value="{{ $formation->id }}">{{ $formation->name }}</option>
+            @endforeach
+            </select>
+        </div>
+
         <button type="submit" class="btn-primary">Créer</button>
     </form>
 </div>

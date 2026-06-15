@@ -9,6 +9,7 @@ use App\Mail\SetPasswordMail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Formation;
 
 class UsersCrudController extends Controller
 {
@@ -31,8 +32,8 @@ class UsersCrudController extends Controller
 
     public function create()
     {
-
-        return view('users.create');
+        $formations = Formation::all();
+        return view('users.create', compact('formations'));
     }
 
     public function store(Request $request)
@@ -43,6 +44,7 @@ class UsersCrudController extends Controller
             'firstname' => ['required', 'string'],
             'email' => ['required', 'email'],
             'statut' => ['required'],
+            'formation_id' => ['nullable', 'exists:formations,id'],
         ]);
 
         $validate['password'] = bcrypt('non_defini_' . uniqid());
@@ -69,8 +71,9 @@ class UsersCrudController extends Controller
     public function edit(int $id)
     {
         $user = User::Find($id);
+        $formations = Formation::all();
 
-        return view('users.update', ['user' => $user]);
+        return view('users.update', compact('user', 'formations'));
     }
 
     public function update(Request $request, int $id)
@@ -80,6 +83,7 @@ class UsersCrudController extends Controller
             'firstname' => ['required', 'string'],
             'email' => ['required', 'email'],
             'password' => ['nullable', 'string'],
+            'formation_id' => ['nullable', 'exists:formations,id'],
         ]);
 
         if (!$request->filled('password')) {
@@ -118,7 +122,7 @@ class UsersCrudController extends Controller
         $record = DB::table('password_reset_tokens')
             ->where('email', $request->email)
             ->first();
-    
+
         if (!$record || !Hash::check($request->token, $record->token)) {
             return back()->with('error', 'Lien invalide ou expiré.');
         }

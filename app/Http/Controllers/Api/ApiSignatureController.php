@@ -5,40 +5,72 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Presence;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Cours;
+use App\Models\User;
 
 class ApiSignatureController extends Controller
 {
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'signature' => ['required', 'string'],
-            'cours_id'  => ['required', 'integer'],
-            'user_id'   => ['nullable', 'integer'],
-        ]);
+  public function store(Request $request)
+{
+    $validated = $request->validate([
+        'signature' => ['required', 'string'],
+        'cours_id'  => ['required', 'integer'],
+        'user_id'   => ['nullable', 'integer'],
+    ]);
 
+    $user = Auth::user();
+
+    if ($user->statut === 'formateur') {
+        // Récupère les apprenants dont la présence a été cochée
+        $presencesCochees = $request->input('presences', []);
+
+        // Récupère tous les apprenants de la formation de ce cours
+        $cours = \App\Models\Cours::find($validated['cours_id']);
+        $apprenants = \App\Models\User::where('statut', 'apprenant')
+            ->where('formation_id', $cours->formation_id)
+            ->get();
+
+        foreach ($apprenants as $apprenant) {
+            // Si l'apprenant est dans la liste des cochés = présent, sinon = absent
+            $statut = isset($presencesCochees[$apprenant->id]) ? 'present' : 'absent';
+
+            Presence::updateOrCreate(
+                [
+                    'cours_id'     => $validated['cours_id'],
+                    'apprenant_id' => $apprenant->id,
+                ],
+                [
+                    'statut'               => $statut,
+                    'valide_formateur'     => true,
+                    'validation_formateur' => now(),
+                    'signature'            => $validated['signature'],
+                ]
+            );
+        }
+    } else {
+        // Apprenant — enregistre sa propre signature
         $presence = Presence::firstOrCreate(
             [
                 'cours_id'     => $validated['cours_id'],
                 'apprenant_id' => $validated['user_id'],
             ],
             [
-                'valide_formateur'      => false,
-                'valide_apprenant'      => false,
-                'statut'                => 'absent',
-                'validation_formateur'  => null,
-                'validation_apprenant'  => null,
+                'valide_formateur'     => true,
+                'valide_apprenant'     => false,
+                'statut'               => 'present',
+                'validation_formateur' => null,
+                'validation_apprenant' => null,
             ]
         );
 
         $presence->update([
-            'signature'             => $validated['signature'],
-            'valide_apprenant'      => true,
-            'validation_apprenant'  => now(),
+            'signature'            => $validated['signature'],
+            'valide_apprenant'     => true,
+            'validation_apprenant' => now(),
         ]);
-
-        return response()->json([
-            'status'      => 'ok',
-            'presence_id' => $presence->id,
-        ], 200);
     }
+
+    return response()->json(['status' => 'ok'], 200);
+}
 }

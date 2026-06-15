@@ -42,4 +42,9 @@ class Cours extends Model
     {
         return $this->hasMany(Presence::class, 'cours_id');
     }
+
+    public function formation(): BelongsTo
+    {
+        return $this->belongsTo(Formation::class);
+    }
 }

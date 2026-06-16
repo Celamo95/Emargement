@@ -17,7 +17,8 @@ class Presence extends Model
         'formateur_id',
         'apprenant_id',
         'cours_id',
-        'signature',
+        'signature_formateur',
+        'signature_apprenant',
         'statut',
     ];
     public function formateur(): BelongsTo

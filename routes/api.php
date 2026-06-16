@@ -20,5 +20,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/profil', [ApiProfilController::class, 'update']);
     Route::put('/password', [ApiPasswordController::class, 'update']); 
     Route::get('/apprenants', [ApiApprenantController::class, 'index']);
+    Route::get('/presence/{cours_id}', [ApiSignatureController::class, 'getPresence']);
    
 });

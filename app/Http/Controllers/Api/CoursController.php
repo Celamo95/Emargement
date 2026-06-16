@@ -22,21 +22,21 @@ class CoursController extends Controller
             $cours = Cours::with(['user', 'matiere'])
                 ->join('formations', 'cours.formation_id', '=', 'formations.id')
                 ->select('cours.*', 'formations.name as formation_name')
-                ->whereDate('date', '>=', now()->toDateString())
+                ->whereDate('date', '>=', now()->subDays(7)->toDateString())
                 ->where('cours.user_id', $user->id)
                 ->orderBy('date')
                 ->orderBy('heure_debut')
                 ->get();
         } elseif ($user->statut === 'apprenant') {
             $cours = Cours::with(['user', 'matiere'])
-                ->whereDate('date', '>=', now()->toDateString())
+                ->whereDate('date', '>=', now()->subDays(7)->toDateString())
                 ->where('formation_id', $user->formation_id)
                 ->orderBy('date')
                 ->orderBy('heure_debut')
                 ->get();
         } else {
             $cours = Cours::with(['user', 'matiere',])
-                ->whereDate('date', '>=', now()->toDateString())
+                ->whereDate('date', '>=', now()->SubDays(7)->toDateString())
                 ->orderBy('date')
                 ->orderBy('heure_debut')
                 ->get();

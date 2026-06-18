@@ -46,8 +46,9 @@
                     <p class="sidebar-category">Emploi du temps</p>
                     <a href="{{ route('emploi-du-temps.index') }}" class="sidebar-link">Gérer</a>
 
-                    <p class="sidebar-category">Exports mensuels</p>
-                    <a href="#" class="sidebar-link">Créer</a>
+                    <p class="sidebar-category"> Présences</p>
+                    <a href="{{route('presences.index')}}" class="sidebar-link">Gérer les présences et absences</a>
+                    <a href="#" class="sidebar-link">Créer un export mensuel</a>
 
                 </nav>
             </aside>

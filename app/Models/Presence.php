@@ -4,8 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\User;
 use App\Models\Cours;
+use App\Models\Justificatif;
+
 
 class Presence extends Model
 {
@@ -33,4 +36,8 @@ class Presence extends Model
     {
         return $this->belongsTo(Cours::class, 'cours_id');
     }
+    public function justificatifs(): HasMany
+{
+    return $this->hasMany(Justificatif::class, 'presence_id');
+}
 }

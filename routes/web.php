@@ -8,6 +8,8 @@ use App\Http\Controllers\CoursCrudController;
 use App\Http\Controllers\MatieresCrudController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PresenceController;
+
 
 
 
@@ -70,4 +72,9 @@ Route::middleware('auth')->group(function () {
 
     //Matieres
     Route::resource('matieres', MatieresCrudController::class);
+
+    //Presence
+    Route::get('/presences', [PresenceController::class, 'index'])->name('presences.index');
+
+    Route::post('/justificatifs/{id}', [PresenceController::class, 'updateJustificatif'])->name('justificatif.update');
 });

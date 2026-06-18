@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\ApiSignatureController;
 use App\Http\Controllers\Api\ApiProfilController;
 use App\Http\Controllers\Api\ApiPasswordController;
 use App\Http\Controllers\Api\ApiApprenantController;
+use App\Http\Controllers\Api\ApiJustificatifController;
+
 
 
 
@@ -21,5 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/password', [ApiPasswordController::class, 'update']); 
     Route::get('/apprenants', [ApiApprenantController::class, 'index']);
     Route::get('/presence/{cours_id}', [ApiSignatureController::class, 'getPresence']);
+    Route::post('/justificatif', [ApiJustificatifController::class, 'store']);
+
    
 });

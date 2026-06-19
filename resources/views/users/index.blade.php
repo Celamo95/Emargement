@@ -16,6 +16,7 @@ Utilisateurs
         language: {
             url: 'https://cdn.datatables.net/plug-ins/2.3.8/i18n/fr-FR.json',
         },
+        order: [], // Garde l'ordre du serveur (Laravel), pas de tri auto
     });
 </script>
 @endsection

@@ -1,0 +1,72 @@
+
+/*=================================================
+Exports
+=================================================*/
+
+body {
+    font-family: 'Lato', Arial, sans-serif;
+    color: #1f2937;
+    margin: 40px;
+}
+
+.logo {
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #006cb1;
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.infos p {
+    margin: 4px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 24px;
+}
+
+th, td {
+    border: 1px solid #d1d5db;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+th {
+    background: #006cb1;
+    color: white;
+}
+
+.present {
+    color: #16a34a;
+    font-weight: 600;
+}
+
+.absent {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+.btn-print {
+    background: #006cb1;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 24px;
+}
+
+/* Caché à l'impression */
+@media print {
+    .btn-print {
+        display: none;
+    }
+}

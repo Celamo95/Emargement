@@ -15,8 +15,11 @@ class UsersCrudController extends Controller
 {
     public function index()
     {
+        $users = User::with('formation')
+            ->orderBy('statut')
+            ->orderBy('name')
+            ->get();
 
-        $users = User::with('formation')->get();
         return view('users.index', [
             'users' => $users,
         ]);

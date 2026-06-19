@@ -9,7 +9,7 @@ use App\Http\Controllers\MatieresCrudController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PresenceController;
-
+use App\Http\Controllers\ExportController;
 
 
 
@@ -77,4 +77,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/presences', [PresenceController::class, 'index'])->name('presences.index');
 
     Route::post('/justificatifs/{id}', [PresenceController::class, 'updateJustificatif'])->name('justificatif.update');
+
+    
+    //Export
+    Route::get('/export/{apprenant_id}/{mois}', [ExportController::class, 'show'])->name('export.show');
+
+    Route::get('/export', [ExportController::class, 'create'])->name('export.create');
+
 });

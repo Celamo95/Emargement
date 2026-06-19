@@ -41,6 +41,7 @@
                     <a href="{{ route('formations.create') }}" class="sidebar-link">Ajouter</a>
 
                     <p class="sidebar-category">Matières</p>
+                    <a href="{{ route('formations.index') }}" class="sidebar-link">Liste</a>
                     <a href="{{ route('matieres.create') }}" class="sidebar-link">Ajouter</a>
 
                     <p class="sidebar-category">Emploi du temps</p>
@@ -48,7 +49,7 @@
 
                     <p class="sidebar-category"> Présences</p>
                     <a href="{{route('presences.index')}}" class="sidebar-link">Gérer les présences et absences</a>
-                    <a href="#" class="sidebar-link">Créer un export mensuel</a>
+                    <a href="{{route('export.create')}}" class="sidebar-link">Créer un export mensuel</a>
 
                 </nav>
             </aside>

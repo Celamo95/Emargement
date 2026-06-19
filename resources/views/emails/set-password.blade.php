@@ -1,6 +1,6 @@
 <p>Bonjour,</p>
 
-<p>Votre compte GEFOR a été créé.</p>
+<p>Une demande de définition de mot de passe a été effectuée pour votre compte GEFOR.</p>
 
 <p>Cliquez sur le lien ci-dessous pour définir votre mot de passe :</p>
 

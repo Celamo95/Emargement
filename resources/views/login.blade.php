@@ -38,6 +38,10 @@ Connexion
             </button>
         </form>
 
+        <p style="text-align:center; margin-top:16px;">
+            <a href="{{ route('forgot.password.form') }}" style="color:#006cb1; font-size:0.9rem;">Mot de passe oublié ?</a>
+</p>
+
     </div>
 
     <a href="{{ route('mobile') }}" class="login-link">

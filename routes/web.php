@@ -40,6 +40,10 @@ Route::get('/set-password', [UsersCrudController::class, 'setPasswordForm'])->na
 // Enregistre le nouveau mot de passe
 Route::post('/set-password', [UsersCrudController::class, 'setPassword'])->name('set.password');
 
+//Mot de passe oublier
+Route::get('/forgot-password', [UsersCrudController::class, 'forgotPasswordForm'])->name('forgot.password.form');
+Route::post('/forgot-password', [UsersCrudController::class, 'forgotPassword'])->name('forgot.password');
+
 Route::middleware('auth')->group(function () {
 
     Route::get('/accueil', [AccueilController::class, 'getCours'])->name('accueil');
@@ -78,10 +82,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/justificatifs/{id}', [PresenceController::class, 'updateJustificatif'])->name('justificatif.update');
 
-    
+
     //Export
     Route::get('/export/{apprenant_id}/{mois}', [ExportController::class, 'show'])->name('export.show');
 
     Route::get('/export', [ExportController::class, 'create'])->name('export.create');
-
 });

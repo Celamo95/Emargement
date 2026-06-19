@@ -138,4 +138,32 @@ class UsersCrudController extends Controller
 
         return redirect()->route('login')->with('success', 'Mot de passe créé, vous pouvez vous connecter.');
     }
+
+    // Affiche le formulaire "mot de passe oublié"
+public function forgotPasswordForm()
+{
+    return view('forgot-password');
+}
+
+// Traite la demande et envoie le mail
+public function forgotPassword(Request $request)
+{
+    $request->validate([
+        'email' => ['required', 'email', 'exists:users,email'],
+    ]);
+
+    $token = \Illuminate\Support\Str::random(64);
+
+    DB::table('password_reset_tokens')->updateOrInsert(
+        ['email' => $request->email],
+        [
+            'token'      => bcrypt($token),
+            'created_at' => now(),
+        ]
+    );
+
+    Mail::to($request->email)->send(new SetPasswordMail($request->email, $token));
+
+    return back()->with('success', 'Un email vous a été envoyé pour réinitialiser votre mot de passe.');
+}
 }

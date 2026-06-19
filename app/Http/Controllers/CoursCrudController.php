@@ -31,7 +31,7 @@ class CoursCrudController extends Controller
             })
             ->get();
 
-        $matieres = Matiere::with('user')->get();
+        $matieres = Matiere::with(['user', 'formations'])->get();
         $formateurs = User::where('statut', 'formateur')->get();
         $formations = Formation::all();
 
@@ -88,7 +88,11 @@ class CoursCrudController extends Controller
         $cours = Cours::find($id);
 
         // Récupère les listes pour les selects
-        $matieres = Matiere::all();
+
+        // Récupère uniquement les matières liées à la formation de ce cours
+        $matieres = Matiere::whereHas('formations', function ($query) use ($cours) {
+            $query->where('formations.id', $cours->formation_id);
+        })->get();
         $formateurs = User::where('statut', 'formateur')->get();
         $formations = Formation::all();
 
@@ -112,7 +116,10 @@ class CoursCrudController extends Controller
 
         Cours::whereId($id)->update($validate);
 
-        return redirect()->route('emploi-du-temps.index')->with('success', 'Cours modifié');
+        return redirect()->route('emploi-du-temps.index', [
+            'week' => $request->date,
+            'formation_id' => $request->formation_id,
+        ])->with('success', 'Cours modifié');
     }
 
     /**

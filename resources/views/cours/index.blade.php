@@ -168,13 +168,35 @@ Emploi du temps
 <script>
     const matieres = @json($matieres);
 
-    document.getElementById('matiere').addEventListener('change', function() {
+        // Quand on change la matière, on remplit automatiquement le formateur
+        document.getElementById('matiere').addEventListener('change', function() {
         const matiereId = this.value;
         const formateurSelect = document.getElementById('formateur');
         const matiere = matieres.find(m => m.id == matiereId);
         if (matiere && matiere.user) {
             formateurSelect.value = matiere.user.id;
         }
+    });
+
+        // Quand on change la formation, on filtre les matières disponibles
+        document.getElementById('formation').addEventListener('change', function() {
+        const formationId = this.value;
+        const matiereSelect = document.getElementById('matiere');
+
+        // Vide le select matière
+        matiereSelect.innerHTML = '<option value="">-- Sélectionner --</option>';
+
+        // Filtre les matières liées à cette formation
+        const matieresFiltrees = matieres.filter(m => 
+            m.formations.some(f => f.id == formationId)
+        );
+
+        matieresFiltrees.forEach(m => {
+            const option = document.createElement('option');
+            option.value = m.id;
+            option.textContent = m.nom;
+            matiereSelect.appendChild(option);
+        });
     });
 </script>
 @endpush

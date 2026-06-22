@@ -64,6 +64,13 @@ class ApiSignatureController extends Controller
                 ]
             );
 
+            // Vérification de sécurité : on n'autorise la signature que si
+            // le formateur a validé ET que l'apprenant est marqué présent
+            if (! $presence->valide_formateur || $presence->statut !== 'present') {
+
+                return response()->json(['message' => 'Vous ne pouvez pas signer ce cours.'], 403);
+            }
+
             $presence->update([
                 'signature_apprenant'  => $validated['signature'],
                 'valide_apprenant'     => true,
